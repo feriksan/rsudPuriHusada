@@ -94,21 +94,21 @@ const FingerInput = ({setNumber, clearForm, backspace, submit}) => {
                     <Row gutter={48} justify={"center"} align={"middle"}>
                         <Col span={12} style={button} onClick={backspace}>
                             <Flex gap="middle" align="center" justify="center" vertical>
-                                <Title className="disable-text-selection" level={1}>X</Title>
+                                <Title className="disable-text-selection" level={3}>X</Title>
                             </Flex>
                         </Col>
                     </Row>
                     <Row gutter={48} justify={"center"} align={"middle"}>
                         <Col span={12} style={button} onClick={clearForm}>
                             <Flex gap="middle" align="center" justify="center" vertical>
-                                <Title className="disable-text-selection" level={1}>clear</Title>
+                                <Title className="disable-text-selection" level={3}>clear</Title>
                             </Flex>
                         </Col>
                     </Row>
                     <Row gutter={48} justify={"center"} align={"middle"}>
                         <Col span={12} style={button} onClick={submit}>
                             <Flex gap="middle" align="center" justify="center" vertical>
-                                <Title className="disable-text-selection" level={1}>done</Title>
+                                <Title className="disable-text-selection" level={3}>done</Title>
                             </Flex>
                         </Col>
                     </Row>
