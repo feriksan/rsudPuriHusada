@@ -1,39 +1,114 @@
-import React, {Fragment, useState} from 'react';
-import {Button, Descriptions, Modal} from 'antd';
+import {Component, Fragment, useEffect, useLayoutEffect, useState} from 'react';
+import {Button, Descriptions, Flex, Modal, QRCode, Skeleton, Space} from 'antd';
 import {PDFViewer} from '@react-pdf/renderer'
 import Invoice from "../component/Reports/Invoice.jsx";
 import invoice from "./../data/invoice-data.js";
-
-const items = [
-    {
-        key: '1',
-        label: 'UserName',
-        children: 'Zhou Maomao',
-    },
-    {
-        key: '2',
-        label: 'Telephone',
-        children: '1810000000',
-    },
-    {
-        key: '3',
-        label: 'Live',
-        children: 'Hangzhou, Zhejiang',
-    },
-    {
-        key: '4',
-        label: 'Address',
-        span: 2,
-        children: 'No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China',
-    },
-    {
-        key: '5',
-        label: 'Remark',
-        children: 'empty',
-    },
-];
-const CetakRegistrasi = () => {
+import {useDispatch, useSelector} from "react-redux";
+import {add} from "../features/bpjs/saveBpjsData.js";
+import Api from "../helper/Api.js";
+import Helper from "../helper/helper.js";
+import JsBarcode from "jsbarcode";
+const api = new Api()
+const helper = new Helper()
+const CetakRegistrasiBody = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [sap, setSap] = useState(null)
+    const bpjsData = useSelector((state) => state.bpjs.value)
+    const penjadwalanData = useSelector((state) => state.jadwal.value)
+    console.log(penjadwalanData)
+    const items = [
+        {
+            key: '1',
+            label: 'Nama Lengkap',
+            children: sap != null ? sap.peserta.nama : "",
+        },
+        {
+            key: '2',
+            label: 'Jenis Kelamin',
+            children: sap != null ? sap.peserta.kelamin : "",
+        },
+        {
+            key: '3',
+            label: 'Tanggal Lahir',
+            children: sap != null ? sap.peserta.tglLahir:"",
+        },
+    ];
+
+    const getSap = async() =>{
+        console.log(bpjsData)
+        let data= {
+            "request": {
+                "t_sep": {
+                    "noKartu": bpjsData.noKartu,
+                    "tglSep": helper.formatDate(),
+                    "ppkPelayanan": "1101R008",
+                    "jnsPelayanan": "2",
+                    "klsRawat": {
+                        "klsRawatHak": "2",
+                        "klsRawatNaik": "",
+                        "pembiayaan": "",
+                        "penanggungJawab": ""
+                    },
+                    "noMR": "035715",
+                    "rujukan": {
+                        "asalRujukan": "1",
+                        "tglRujukan": "",
+                        "noRujukan": "",
+                        "ppkRujukan": "11011302"
+                    },
+                    "catatan": "Tesing insert SEP IGD",
+                    "diagAwal": "A01",
+                    "poli": {
+                        "tujuan": "IGD",
+                        "eksekutif": "0"
+                    },
+                    "cob": {
+                        "cob": "0"
+                    },
+                    "katarak": {
+                        "katarak": "0"
+                    },
+                    "jaminan": {
+                        "lakaLantas": "0",
+                        "penjamin": {
+                            "tglKejadian": "",
+                            "keterangan": "",
+                            "suplesi": {
+                                "suplesi": "",
+                                "noSepSuplesi": "",
+                                "lokasiLaka": {
+                                    "kdPropinsi": "",
+                                    "kdKabupaten": "",
+                                    "kdKecamatan": ""
+                                }
+                            }
+                        }
+                    },
+                    "tujuanKunj": "0",
+                    "flagProcedure": "",
+                    "kdPenunjang": "",
+                    "assesmentPel": "",
+                    "skdp": {
+                        "noSurat": "",
+                        "kodeDPJP": ""
+                    },
+                    "dpjpLayan": "494786",
+                    "noTelp": "08546854852",
+                    "user": "Coba Ws"
+                }
+            }
+        }
+        await api
+            .getSap(data)
+            .then((response) => {
+                setSap(response.data.sep)
+                console.log(response.data.sep)
+            })
+    }
+    useEffect(() => {
+        getSap()
+    }, []);
+
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -43,20 +118,130 @@ const CetakRegistrasi = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-    return(
-        <>
-            <Descriptions title="User Info" layout="vertical" items={items} />
-            <Button type="primary" onClick={showModal}>
-                Open Modal
-            </Button>
-            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <Fragment>
-                    <PDFViewer width="1000" height="600" className="app" >
-                        <Invoice invoice={invoice}/>
-                    </PDFViewer>
-                </Fragment>
-            </Modal>
-        </>
-    )
+    let canvas;
+// For QR Code
+    canvas = document.createElement('canvas');
+    JsBarcode(canvas, JSON.stringify({"nama":"Ikhsan"}), {displayValue:false});
+    const barcode = canvas.toDataURL();
+    if(sap != null){
+        return(
+            <>
+                <Descriptions title="User Info" layout="vertical" items={items} />
+                <Button type="primary" onClick={showModal}>
+                    Cetak Nomor Antrian
+                </Button>
+                <Modal width={1100} title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                    <Flex justify={"center"}>
+                        <Fragment>
+                            <PDFViewer width="1000" height="600" className="app" >
+                                <Invoice invoice={sap} barcode={barcode} penjadwalan={penjadwalanData}/>
+                            </PDFViewer>
+                        </Fragment>
+                    </Flex>
+                </Modal>
+            </>
+        )
+    }else{
+        return(
+            <Skeleton active />
+        )
+    }
 };
+class CetakRegistrasi extends Component{
+    state = {
+        sep:null,
+        isLoaded:false,
+        data: {
+            "request": {
+                "t_sep": {
+                    "noKartu": "0001787877202",
+                    "tglSep": "2023-11-26",
+                    "ppkPelayanan": "1101R008",
+                    "jnsPelayanan": "2",
+                    "klsRawat": {
+                        "klsRawatHak": "2",
+                        "klsRawatNaik": "",
+                        "pembiayaan": "",
+                        "penanggungJawab": ""
+                    },
+                    "noMR": "035715",
+                    "rujukan": {
+                        "asalRujukan": "1",
+                        "tglRujukan": "",
+                        "noRujukan": "",
+                        "ppkRujukan": "11011302"
+                    },
+                    "catatan": "Tesing insert SEP IGD",
+                    "diagAwal": "A01",
+                    "poli": {
+                        "tujuan": "IGD",
+                        "eksekutif": "0"
+                    },
+                    "cob": {
+                        "cob": "0"
+                    },
+                    "katarak": {
+                        "katarak": "0"
+                    },
+                    "jaminan": {
+                        "lakaLantas": "0",
+                        "penjamin": {
+                            "tglKejadian": "",
+                            "keterangan": "",
+                            "suplesi": {
+                                "suplesi": "",
+                                "noSepSuplesi": "",
+                                "lokasiLaka": {
+                                    "kdPropinsi": "",
+                                    "kdKabupaten": "",
+                                    "kdKecamatan": ""
+                                }
+                            }
+                        }
+                    },
+                    "tujuanKunj": "0",
+                    "flagProcedure": "",
+                    "kdPenunjang": "",
+                    "assesmentPel": "",
+                    "skdp": {
+                        "noSurat": "",
+                        "kodeDPJP": ""
+                    },
+                    "dpjpLayan": "494786",
+                    "noTelp": "08546854852",
+                    "user": "Coba Ws"
+                }
+            }
+        }
+    }
+    // async getSap(){
+    //     const mapStateToProps = state => ({
+    //         bpjsData: state.bpjs.value
+    //     });
+    //     console.log(mapStateToProps)
+    //     await api
+    //         .getSap(this.state.data)
+    //         .then((response) => {
+    //             console.log(response.data.sep)
+    //             this.renderSap(response.data.sep)
+    //         })
+    // }
+    // renderSap = (sap) => {
+    //     const dataSAP = sap
+    //     console.log(dataSAP)
+    //     this.setState({sep: dataSAP})
+    // }
+    // componentDidMount() {
+    //     console.log("SASA")
+    //     this.getSap()
+    //
+    // }
+
+    render() {
+        const {sep} = this.state
+        return(
+            <CetakRegistrasiBody/>
+        )
+    }
+}
 export default CetakRegistrasi;

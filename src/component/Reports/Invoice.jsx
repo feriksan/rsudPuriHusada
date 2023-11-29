@@ -11,7 +11,7 @@ import logo from '../../assets/react.svg'
 const styles = StyleSheet.create({
     page: {
         fontFamily: 'Helvetica',
-        fontSize: 9,
+        fontSize: 7,
         paddingTop: 30,
         paddingLeft:60,
         paddingRight:60,
@@ -26,15 +26,17 @@ const styles = StyleSheet.create({
     }
 });
 
-const Invoice = ({invoice}) => (
+const Invoice = ({invoice, barcode, penjadwalan}) => (
     <Document>
         <Page size="A6" style={styles.page}>
-            <Image style={styles.logo} src={logo} />
-            <InvoiceTitle title='Invoice'/>
+            <InvoiceTitle title='Registrasi Pasien'/>
             {/*<InvoiceNo invoice={invoice}/>*/}
             {/*<BillTo invoice={invoice}/>*/}
-            <InvoiceItemsTable invoice={invoice} />
+            <InvoiceItemsTable invoice={invoice} jadwal={penjadwalan}/>
             <InvoiceThankYouMsg />
+            <Image
+                src={barcode}
+            />
         </Page>
     </Document>
 );

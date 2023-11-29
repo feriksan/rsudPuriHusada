@@ -1,0 +1,29 @@
+DAFTAR ENDPOINT
+----------------
+
+// get peserta by NOKA
+http://localhost:8881/api/vclaim/peserta/noka?noka=0001529593817&tgl=2023-11-27
+
+// get peserta by NIK
+http://localhost:8881/api/vclaim/peserta/nik?nik=3322181103790003&tgl=2023-11-27
+
+// get referensi POLI
+http://localhost:8881/api/vclaim/ref/poli?poli=INT
+
+// get referensi dpjp
+http://localhost:8881/api/vclaim/ref/dpjp?kode=INT&jenpel=2&tgl=2023-11-27
+
+// get referensi diagnosa
+http://localhost:8881/api/vclaim/ref/diagnosa?dx=a01
+
+// get referensi jadwal dokter
+http://localhost:8881/api/antrol/jadwal?kdpoli=MAT&tgl=2023-11-27
+
+// get rujukan by nomor kartu
+http://localhost:8881/api/vclaim/rujukan/noka?noka=0000031313709
+
+// get rujukan by nomor kartu
+http://localhost:8881/api/vclaim/rujukan/norujukan?noruj=0173B0831221P001054
+
+// insert SEP v.2
+http://localhost:8881/api/vclaim/SEPv2/insert

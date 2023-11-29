@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, View, StyleSheet } from '@react-pdf/renderer';
-import {QRCode} from "antd";
 
 const styles = StyleSheet.create({
 
@@ -9,7 +8,7 @@ const styles = StyleSheet.create({
         marginTop: 12
     },
     reportTitle:{
-        fontSize: 10,
+        fontSize: 7,
         textAlign: 'center',
         textTransform: 'uppercase',
     }
@@ -19,7 +18,7 @@ const styles = StyleSheet.create({
 const InvoiceThankYouMsg = () => (
     <View style={styles.titleContainer}>
         {/*<QRCode value={'https://ant.design/' || '-'} />*/}
-        <Text style={styles.reportTitle}>Thank you for your business</Text>
+        <Text style={styles.reportTitle}>RSUD PURI HUSADA TEMBILAHAN</Text>
     </View>
 );
 

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     reportTitle:{
         color: '#61dafb',
         letterSpacing: 4,
-        fontSize: 25,
+        fontSize: 15,
         textAlign: 'center',
         textTransform: 'uppercase',
     }

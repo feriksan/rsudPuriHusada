@@ -1,4 +1,4 @@
-import {Button, Col, Divider, Form, Input, InputNumber, Row, Space} from "antd";
+import {Button, Divider, Form, Input, Space} from "antd";
 import React from "react";
 
 const DataPasien = () => {
@@ -7,11 +7,10 @@ const DataPasien = () => {
             span: 8,
         },
         wrapperCol: {
-            span: 16,
+            span: 20,
         },
     };
 
-    /* eslint-disable no-template-curly-in-string */
     const validateMessages = {
         required: '${label} is required!',
         types: {
@@ -22,15 +21,11 @@ const DataPasien = () => {
             range: '${label} must be between ${min} and ${max}',
         },
     };
-    /* eslint-enable no-template-curly-in-string */
 
     const onFinish = (values) => {
         console.log(values);
     };
-
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
+    
     return(
         <div>
             <Form
@@ -40,7 +35,6 @@ const DataPasien = () => {
                 <Form.Item label="Rekam Medis">
                     <Input placeholder="Nomor Rekam Medis" />
                 </Form.Item>
-
                 <Form.Item
                 >
                     <Button type="primary" htmlType="submit">
@@ -49,116 +43,43 @@ const DataPasien = () => {
                 </Form.Item>
             </Form>
             <Divider/>
-            <Form
-                {...layout}
-                name="nest-messages"
-                onFinish={onFinish}
-                style={{
-                    maxWidth: 1000,
-                }}
-                validateMessages={validateMessages}
-            >
-                <Row gutter={10}>
-                    <Col>
+
+                <Form
+                    {...layout}
+                    name="nest-messages"
+                    onFinish={onFinish}
+                    style={{
+                        maxWidth: 2000,
+                    }}
+                    validateMessages={validateMessages}
+                >
+                    <Space>
                         <Form.Item
                             name={['user', 'name']}
                             label="Name"
                         >
                             <Input />
                         </Form.Item>
-                    </Col>
-                    <Col>
                         <Form.Item
                             name={['user', 'email']}
                             label="Jenis Kelamin"
                         >
                             <Input />
                         </Form.Item>
-                    </Col>
-                    <Col>
                         <Form.Item
                             name={['user', 'email']}
                             label="Tgl Lahir"
                         >
                             <Input />
                         </Form.Item>
-                    </Col>
-                    <Col>
                         <Form.Item
                             name={['user', 'email']}
                             label="Alamat"
                         >
                             <Input />
                         </Form.Item>
-                    </Col>
-                    <Divider/>
-                    <Col>
-                        <Form.Item
-                            name={['user', 'email']}
-                            label="Pekerjaan"
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col>
-                        <Form.Item
-                            name={['user', 'email']}
-                            label="Status Nikah"
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col>
-                        <Form.Item
-                            name={['user', 'email']}
-                            label="Agama"
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Divider/>
-                    <Col>
-                        <Form.Item
-                            name={['user', 'email']}
-                            label="Nama Keluarga"
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col>
-                        <Form.Item
-                            name={['user', 'email']}
-                            label="Kabupaten"
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col>
-                        <Form.Item
-                            name={['user', 'email']}
-                            label="Kelurahan"
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col>
-                        <Form.Item
-                            name={['user', 'email']}
-                            label="Kecamatan"
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col>
-                        <Form.Item
-                            name={['user', 'email']}
-                            label="Alamat"
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                </Row>
-            </Form>
+                    </Space>
+                </Form>
         </div>
     )
 }

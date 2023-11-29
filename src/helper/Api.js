@@ -4,7 +4,7 @@ export default class Api {
     constructor() {
         this.api_token = null;
         this.client = null;
-        this.api_url_production = "http://localhost:471"
+        this.api_url_production = "http://localhost:8881"
     }
 
     init = () => {
@@ -26,12 +26,29 @@ export default class Api {
     }
 
     getBpjs = (params) => {
-        return this.init().get(`/api/peserta/nik`, {params: params})
+        return this.init().get(`/api/vclaim/peserta/noka`, {params: params})
+    }
+    getNik = (params) => {
+        return this.init().get(`/api/vclaim/peserta/nik`, {params: params})
     }
     getPoli = (params) => {
-        return this.init().get('/api/referensis/poli', {params: params})
+        return this.init().get('/api/vclaim/ref/poli', {params: params})
     }
     getDoctor = (params) => {
-        return this.init().get('/api/referensis/dokterDpjp', {params: params})
+        return this.init().get('/api/vclaim/ref/dpjp', {params: params})
+    }
+
+    getJadwal = (params) => {
+        return this.init().get('/api/antrol/jadwal', {params: params})
+    }
+    getRujukanNoka = (params) => {
+        return this.init().get('/api/vclaim/rujukan/norujukan', {params: params})
+    }
+    getDiagnosa = (params) => {
+        return this.init().get('/api/vclaim/ref/diagnosa', {params: params})
+    }
+
+    getSap = (params) => {
+        return this.init().post('/api/vclaim/SEPv2/insert', params)
     }
 }

@@ -6,7 +6,6 @@ import "./App.css";
 import NavBar from "./component/Navbar.jsx";
 import SideBar from "./component/Sidebar.jsx";
 import TopicMenu from "./component/TopicMenu.jsx";
-import InputBpjs from "./view/InputBpjs.jsx";
 import Pendaftaran from "./view/Pendaftaran.jsx";
 
 const App = () => {
@@ -15,15 +14,11 @@ const App = () => {
     const [selectedKey, setSelectedKey] = useState("0");
 
     const topicContent = [
-        <InputBpjs/>,
         <Pendaftaran/>,
-        "Hello"
     ]
 
     const topics = [
-        "BPJS",
         "Pendaftaran",
-        "Third topic"
     ];
     const changeSelectedKey = (event) => {
         const key = event.key;

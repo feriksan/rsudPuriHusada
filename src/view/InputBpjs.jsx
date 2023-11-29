@@ -1,7 +1,8 @@
 import {useState} from "react";
-import {Avatar, Button, Card, Col, Divider, Empty, Input, Modal, Row, Tabs} from "antd";
+import {Avatar, Button, Card, Col, Divider, Empty, Input, Modal, Row, Tabs, Typography} from "antd";
+const { Title } = Typography;
 import {UserOutlined} from "@ant-design/icons";
-import FingerInput from "../component/FingerInput.jsx";
+import FingerInput from "../component/FingerInput/FingerInput.jsx";
 import Api from "../helper/Api.js";
 
 const box = {
@@ -145,16 +146,6 @@ const InputBpjs = () => {
                 console.log(response)
                 setDoctor(response.data.list)
             })
-    }
-    const formatDate = () => {
-        const date =  new Date()
-        const year = date.toLocaleString('default', {year: 'numeric'});
-        const month = date.toLocaleString('default', {
-            month: '2-digit',
-        });
-        const day = date.toLocaleString('default', {day: '2-digit'});
-        console.log([year, month, day].join('-'))
-        return [year, month, day].join('-');
     }
 
 

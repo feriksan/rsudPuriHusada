@@ -1,23 +1,9 @@
 import React, { useState } from 'react';
-import { Button, message, Steps, theme } from 'antd';
-import DataPasien from "../component/DataPasien.jsx";
+import {Button, message, Steps, theme} from 'antd';
+import InputBpjs from "../component/BPJS/InputBpjs.jsx";
 import Penjadwalan from "../component/Penjadwalan.jsx";
 import CetakRegistrasi from "../component/CetakRegistrasi.jsx";
 
-const steps = [
-    {
-        title: 'Registrasi Pasien',
-        content: <DataPasien/>,
-    },
-    {
-        title: 'Pemilihan Poli',
-        content: <Penjadwalan/>,
-    },
-    {
-        title: 'Cetak Nomor Antrian',
-        content: <CetakRegistrasi/>,
-    },
-];
 const Pendaftaran = () => {
     const { token } = theme.useToken();
     const [current, setCurrent] = useState(0);
@@ -27,17 +13,26 @@ const Pendaftaran = () => {
     const prev = () => {
         setCurrent(current - 1);
     };
+    const steps = [
+        {
+            title: 'Registrasi Pasien',
+            content: <InputBpjs next={next}/>,
+        },
+        {
+            title: 'Pemilihan Poli',
+            content: <Penjadwalan/>,
+        },
+        {
+            title: 'Cetak Nomor Antrian',
+            content: <CetakRegistrasi/>,
+        },
+    ];
     const items = steps.map((item) => ({
         key: item.title,
         title: item.title,
     }));
     const contentStyle = {
-        // lineHeight: '260px',
-        // textAlign: 'center',
         color: token.colorTextTertiary,
-        // backgroundColor: token.colorFillAlter,
-        // borderRadius: token.borderRadiusLG,
-        // border: `1px dashed ${token.colorBorder}`,
         marginTop: 16,
     };
 
