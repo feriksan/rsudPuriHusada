@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import {Button, message, Steps, theme} from 'antd';
 import InputBpjs from "../component/BPJS/InputBpjs.jsx";
 import Penjadwalan from "../component/Penjadwalan.jsx";
-import CetakRegistrasi from "../component/CetakRegistrasi.jsx";
+import CetakRegistrasiBody from "../component/CetakRegistrasi.jsx";
 
 const Pendaftaran = () => {
     const { token } = theme.useToken();
     const [current, setCurrent] = useState(0);
+    const [disabled, setDisabled] = useState(false)
     const next = () => {
         setCurrent(current + 1);
     };
@@ -20,11 +21,11 @@ const Pendaftaran = () => {
         },
         {
             title: 'Pemilihan Poli',
-            content: <Penjadwalan/>,
+            content: <Penjadwalan disabled={setDisabled}/>,
         },
         {
             title: 'Cetak Nomor Antrian',
-            content: <CetakRegistrasi/>,
+            content: <CetakRegistrasiBody/>,
         },
     ];
     const items = steps.map((item) => ({
@@ -45,8 +46,8 @@ const Pendaftaran = () => {
                     marginTop: 24,
                 }}
             >
-                {current < steps.length - 1 && (
-                    <Button type="primary" onClick={() => next()}>
+                {current < steps.length - 1 && current > 0 && (
+                    <Button type="primary" onClick={() => next()} disabled={disabled}>
                         Next
                     </Button>
                 )}

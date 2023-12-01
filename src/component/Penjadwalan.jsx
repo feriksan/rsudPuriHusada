@@ -7,13 +7,12 @@ import {add} from "../features/penjadwalan/saveJadwal.js";
 
 const api = new Api()
 const helper = new Helper()
-const Penjadwalan = () => {
+const Penjadwalan = ({disabled}) => {
     const [poli, setPoli] = useState([])
     const [dokter, setDokter] = useState([])
     const [jadwal, setJadwal] = useState([])
     const [selectedPoli, setSelectedPoli] = useState()
     const [selectedDoctor, setSelectedDoctor] = useState()
-    const [selectedJadwal, setSelectedJadwal] = useState()
     const dispatch = useDispatch()
     let dataJson = {}
 
@@ -26,12 +25,12 @@ const Penjadwalan = () => {
         console.log(`selected ${value}`);
     };
     const onChangeJadwal = (value) => {
-        setSelectedJadwal(value)
         dataJson = {
             "poli":selectedPoli,
             "doctor":selectedDoctor,
             "jadwal":value
         }
+        {disabled(false)}
         dispatch(add({dataJson}))
         console.log(`selected ${value}`);
     };
@@ -60,12 +59,13 @@ const Penjadwalan = () => {
         await api
             .getJadwal({"kdpoli":"INT", "tgl":helper.formatDate()})
             .then((response) => {
+                console.log(response.data)
                 setJadwal(response.data)
-
             })
     }
 
     useEffect(() => {
+        {disabled(true)}
         getPoli()
         getDokter()
         getJadwal()

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 
 
 const InvoiceTableRow = ({items, jadwal}) => {
-    console.log(jadwal)
+    console.log(jadwal.dataJson)
     // const rows = items.map( item =>
     //     <View style={styles.row} key={item.sno.toString()}>
     //         <Text style={styles.description}>{item.desc}</Text>
@@ -56,12 +56,12 @@ const InvoiceTableRow = ({items, jadwal}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Poli Tujuan</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{jadwal.poli}</Text>
+            <Text style={styles.printData}>{jadwal.dataJson.poli}</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Nama Dokter</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{jadwal.doctor}</Text>
+            <Text style={styles.printData}>{jadwal.dataJson.doctor}</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Hari / Tanggal</Text>
@@ -71,12 +71,12 @@ const InvoiceTableRow = ({items, jadwal}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Waktu</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{jadwal.jadwal}</Text>
+            <Text style={styles.printData}>{jadwal.dataJson.jadwal}</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>No Antrian</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.tujuanKunj}</Text>
+            <Text style={styles.printData}>{items.noSep}</Text>
         </View>
     </Fragment> )
 };
