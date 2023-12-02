@@ -11,14 +11,15 @@ const Penjadwalan = ({disabled}) => {
     const [poli, setPoli] = useState([])
     const [dokter, setDokter] = useState([])
     const [jadwal, setJadwal] = useState([])
-    const [selectedPoli, setSelectedPoli] = useState()
+    const [selectedPoli, setSelectedPoli] = useState("INT")
     const [selectedDoctor, setSelectedDoctor] = useState()
     const dispatch = useDispatch()
     let dataJson = {}
 
-    const onChangePoli = (value) => {
-        setSelectedPoli(value)
-        console.log(`selected ${value}`);
+    const onChangePoli = (value, element) => {
+        setSelectedPoli(element)
+        console.log(element)
+        console.log(`selected ${element}`);
     };
     const onChangeDoctor = (value) => {
         setSelectedDoctor(value)
@@ -26,7 +27,7 @@ const Penjadwalan = ({disabled}) => {
     };
     const onChangeJadwal = (value) => {
         dataJson = {
-            "poli":selectedPoli,
+            "poli":selectedPoli.label,
             "doctor":selectedDoctor,
             "jadwal":value
         }
@@ -41,17 +42,24 @@ const Penjadwalan = ({disabled}) => {
         await api
             .getPoli({"poli":"INT"})
             .then((response) => {
-                setPoli(response.data.poli)
-                console.log(response.data.poli)
+                setPoli(response.data)
+                console.log(response.data)
             })
     }
 
     const getDokter = async() =>{
         await api
-            .getDoctor({"kode":"INT", "jenpel":"2", "tgl":helper.formatDate()})
+            .getDoctor({"kode":selectedPoli.value, "jenpel":"2", "tgl":helper.formatDate()})
             .then((response) => {
-                setDokter(response.data.list)
                 console.log(response.data)
+                if(response.data.code === "201"){
+                    console.log("G")
+                    setDokter([])
+                }else{
+                    console.log("ERROR")
+                    setDokter(response.data.list)
+                    console.log(response.data)
+                }
             })
     }
 
@@ -69,7 +77,7 @@ const Penjadwalan = ({disabled}) => {
         getPoli()
         getDokter()
         getJadwal()
-    }, []);
+    }, [selectedPoli]);
 
 // Filter `option.label` match the user type `input`
     const filterOption = (input, option) =>
@@ -85,7 +93,7 @@ const Penjadwalan = ({disabled}) => {
             onChange={onChangePoli}
             onSearch={onSearch}
             filterOption={filterOption}
-            options={poli.map((data) => ({ label: data.nama, value: data.nama }))}
+            options={poli.map((data) => ({ label: data.namaPoli, value: data.kode }))}
         />
             <Divider/>
             <h2>Pilih Dokter</h2>
