@@ -5,6 +5,7 @@ import {useState} from "react";
 import Api from "../../helper/Api.js";
 import Helper from "../../helper/helper.js";
 import {add} from '../../features/bpjs/saveBpjsData'
+import {addRujukan} from '../../features/rujukan/saveRujukanData.js'
 
 const bpjs = []
 const api = new Api()
@@ -35,8 +36,22 @@ const InputBpjs = ({next,complete}) => {
             .then((response) => {
                 console.log(response)
                 dispatch(add(response.data.peserta))
+                getRujukan(numberBpjs.join("").toString())
+                // {next()}
+                // {complete(1)}
+            })
+    }
+
+    const getRujukan = async(bpjsNumber) => {
+        let data = {
+            "noka":bpjsNumber,
+        }
+        await api
+            .getRujukan(data)
+            .then((response) => {
+                console.log(response)
+                dispatch(addRujukan(response.data))
                 {next()}
-                {complete(1)}
             })
     }
 

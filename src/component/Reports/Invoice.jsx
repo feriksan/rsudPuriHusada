@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
     page: {
         fontFamily: 'Helvetica',
         fontSize: 7,
-        paddingTop: 30,
-        paddingLeft:60,
+        paddingTop: 10,
+        paddingLeft:30,
         paddingRight:60,
-        lineHeight: 1.5,
+        lineHeight: 1,
         flexDirection: 'column',
     },
     logo: {
@@ -26,17 +26,14 @@ const styles = StyleSheet.create({
     }
 });
 
-const Invoice = ({invoice, barcode, penjadwalan}) => (
+const Invoice = ({invoice, barcode, penjadwalan, qr}) => (
     <Document>
-        <Page size="A6" style={styles.page}>
-            <InvoiceTitle title='Registrasi Pasien'/>
+        <Page orientation={"landscape"} size="A6" style={styles.page}>
+            <InvoiceTitle title='SURAT ELEGIBILITAS PESERTA'/>
             {/*<InvoiceNo invoice={invoice}/>*/}
             {/*<BillTo invoice={invoice}/>*/}
-            <InvoiceItemsTable invoice={invoice} jadwal={penjadwalan}/>
+            <InvoiceItemsTable invoice={invoice} jadwal={penjadwalan} barcode={barcode} qr={qr}/>
             <InvoiceThankYouMsg />
-            <Image
-                src={barcode}
-            />
         </Page>
     </Document>
 );

@@ -11,16 +11,16 @@ const styles = StyleSheet.create({
     tableContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        marginTop: 24,
+        marginTop: 14,
         // borderWidth: 1,
         // borderColor: '#bff0fd',
     },
 });
 
-const InvoiceItemsTable = ({invoice, jadwal}) => (
+const InvoiceItemsTable = ({invoice, jadwal, barcode, qr}) => (
     <View style={styles.tableContainer}>
         {/*<InvoiceTableHeader />*/}
-        <InvoiceTableRow items={invoice} jadwal={jadwal}/>
+        <InvoiceTableRow items={invoice} jadwal={jadwal} barcode={barcode} qr={qr}/>
         {/*<InvoiceTableBlankSpace rowsCount={ tableRowsCount - invoice.items.length} />*/}
         {/*<InvoiceTableFooter items={invoice.items} />*/}
     </View>

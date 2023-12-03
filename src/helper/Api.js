@@ -28,6 +28,9 @@ export default class Api {
     getBpjs = (params) => {
         return this.init().get(`/api/vclaim/peserta/noka`, {params: params})
     }
+    getRujukan = (param) =>{
+        return this.init().get('/api/vclaim/rujukan/noka', {params: param})
+    }
     getNik = (params) => {
         return this.init().get(`/api/vclaim/peserta/nik`, {params: params})
     }

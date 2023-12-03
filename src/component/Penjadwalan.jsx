@@ -2,7 +2,7 @@ import {Divider, Select} from "antd";
 import Api from "../helper/Api.js";
 import {useEffect, useState} from "react";
 import Helper from "../helper/helper.js";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {add} from "../features/penjadwalan/saveJadwal.js";
 
 const api = new Api()
@@ -14,11 +14,12 @@ const Penjadwalan = ({disabled}) => {
     const [selectedPoli, setSelectedPoli] = useState("INT")
     const [selectedDoctor, setSelectedDoctor] = useState()
     const dispatch = useDispatch()
+    const rujukanData = useSelector((state) => state.rujukan.value)
     let dataJson = {}
+    {disabled(false)}
 
     const onChangePoli = (value, element) => {
         setSelectedPoli(element)
-        console.log(element)
         console.log(`selected ${element}`);
     };
     const onChangeDoctor = (value) => {
@@ -31,7 +32,7 @@ const Penjadwalan = ({disabled}) => {
             "doctor":selectedDoctor,
             "jadwal":value
         }
-        {disabled(false)}
+        // {disabled(false)}
         dispatch(add({dataJson}))
         console.log(`selected ${value}`);
     };
@@ -40,10 +41,10 @@ const Penjadwalan = ({disabled}) => {
     };
     const getPoli = async() =>{
         await api
-            .getPoli({"poli":"INT"})
+            .getPoli({"poli":rujukanData.rujukan.poliRujukan})
             .then((response) => {
-                setPoli(response.data)
                 console.log(response.data)
+                setPoli(response.data.code === "201" ? [] : response.data.poli)
             })
     }
 
@@ -52,14 +53,7 @@ const Penjadwalan = ({disabled}) => {
             .getDoctor({"kode":selectedPoli.value, "jenpel":"2", "tgl":helper.formatDate()})
             .then((response) => {
                 console.log(response.data)
-                if(response.data.code === "201"){
-                    console.log("G")
-                    setDokter([])
-                }else{
-                    console.log("ERROR")
-                    setDokter(response.data.list)
-                    console.log(response.data)
-                }
+                setDokter(response.data.code === "201" ? [] : response.data.list)
             })
     }
 
@@ -68,7 +62,7 @@ const Penjadwalan = ({disabled}) => {
             .getJadwal({"kdpoli":"INT", "tgl":helper.formatDate()})
             .then((response) => {
                 console.log(response.data)
-                setJadwal(response.data)
+                setJadwal(response.data.code === 201 ? [] : response.data)
             })
     }
 
@@ -93,7 +87,7 @@ const Penjadwalan = ({disabled}) => {
             onChange={onChangePoli}
             onSearch={onSearch}
             filterOption={filterOption}
-            options={poli.map((data) => ({ label: data.namaPoli, value: data.kode }))}
+            options={poli.map((data) => ({ label: data.nama, value: data.kode }))}
         />
             <Divider/>
             <h2>Pilih Dokter</h2>

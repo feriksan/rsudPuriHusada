@@ -1,13 +1,12 @@
-import {Component, Fragment, useEffect, useLayoutEffect, useState} from 'react';
-import {Button, Descriptions, Flex, Modal, QRCode, Skeleton, Space} from 'antd';
-import {PDFViewer} from '@react-pdf/renderer'
+import React, {Component, Fragment, useEffect, useState} from 'react';
+import {Button, Descriptions, Flex, Modal, Skeleton} from 'antd';
+import { PDFViewer} from '@react-pdf/renderer'
 import Invoice from "../component/Reports/Invoice.jsx";
-import invoice from "./../data/invoice-data.js";
-import {useDispatch, useSelector} from "react-redux";
-import {add} from "../features/bpjs/saveBpjsData.js";
+import { useSelector} from "react-redux";
 import Api from "../helper/Api.js";
 import Helper from "../helper/helper.js";
 import JsBarcode from "jsbarcode";
+import QRCode from "qrcode";
 const api = new Api()
 const helper = new Helper()
 const CetakRegistrasiBody = () => {
@@ -119,10 +118,15 @@ const CetakRegistrasiBody = () => {
         setIsModalOpen(false);
     };
     let canvas;
+    let canvas2;
 // For QR Code
     canvas = document.createElement('canvas');
+    canvas2 = document.createElement('canvas');
+    QRCode.toCanvas(canvas2, "www.google.com");
+    const qr = canvas2.toDataURL('I am a pony!');
     JsBarcode(canvas, JSON.stringify({"nama":"Ikhsan"}), {displayValue:false});
     const barcode = canvas.toDataURL();
+    console.log(qr)
     if(sap != null){
         return(
             <>
@@ -133,8 +137,8 @@ const CetakRegistrasiBody = () => {
                 <Modal width={1100} title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                     <Flex justify={"center"}>
                         <Fragment>
-                            <PDFViewer width="1000" height="600" className="app" >
-                                <Invoice invoice={sap} barcode={barcode} penjadwalan={penjadwalanData}/>
+                            <PDFViewer width="600" height="600" className="app" >
+                                <Invoice invoice={sap} barcode={barcode} penjadwalan={penjadwalanData} qr={qr}/>
                             </PDFViewer>
                         </Fragment>
                     </Flex>
