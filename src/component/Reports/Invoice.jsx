@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
     }
 });
 
-const Invoice = ({invoice, barcode, penjadwalan, qr}) => (
+const Invoice = ({invoice, barcode, penjadwalan, qr, rujukanData, bpjsData}) => (
     <Document>
-        <Page orientation={"landscape"} size="A6" style={styles.page}>
+        <Page orientation={"landscape"} size="A5" style={styles.page}>
             <InvoiceTitle title='SURAT ELEGIBILITAS PESERTA'/>
             {/*<InvoiceNo invoice={invoice}/>*/}
             {/*<BillTo invoice={invoice}/>*/}
-            <InvoiceItemsTable invoice={invoice} jadwal={penjadwalan} barcode={barcode} qr={qr}/>
+            <InvoiceItemsTable invoice={invoice} jadwal={penjadwalan} barcode={barcode} qr={qr} rujukanData={rujukanData} bpjsData={bpjsData}/>
             <InvoiceThankYouMsg />
         </Page>
     </Document>

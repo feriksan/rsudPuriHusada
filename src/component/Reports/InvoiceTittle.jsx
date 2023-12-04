@@ -16,18 +16,18 @@ const styles = StyleSheet.create({
     },
     reportTitle:{
         letterSpacing: 2,
-        fontSize: 10,
+        fontSize: 15,
         textAlign: 'right',
         textTransform: 'uppercase',
     },
     reportSubTitle:{
         letterSpacing: 2,
-        fontSize: 8,
+        fontSize: 10,
         textAlign: 'right',
         textTransform: 'uppercase',
     },
     logo:{
-        height:25,
+        height:35,
         width: "50%"
     }
 });

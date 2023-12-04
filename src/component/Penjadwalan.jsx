@@ -28,9 +28,9 @@ const Penjadwalan = ({disabled}) => {
     };
     const onChangeJadwal = (value) => {
         dataJson = {
-            "poli":selectedPoli.label,
-            "doctor":selectedDoctor,
-            "jadwal":value
+            "poli":selectedPoli.label ?? "",
+            "doctor":selectedDoctor ?? "",
+            "jadwal":value ?? ""
         }
         // {disabled(false)}
         dispatch(add({dataJson}))
@@ -41,7 +41,7 @@ const Penjadwalan = ({disabled}) => {
     };
     const getPoli = async() =>{
         await api
-            .getPoli({"poli":rujukanData.rujukan.poliRujukan})
+            .getPoli({"poli":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan : "INT"})
             .then((response) => {
                 console.log(response.data)
                 setPoli(response.data.code === "201" ? [] : response.data.poli)
@@ -50,7 +50,7 @@ const Penjadwalan = ({disabled}) => {
 
     const getDokter = async() =>{
         await api
-            .getDoctor({"kode":selectedPoli.value, "jenpel":"2", "tgl":helper.formatDate()})
+            .getDoctor({"kode":"INT", "jenpel":"2", "tgl":helper.formatDate()})
             .then((response) => {
                 console.log(response.data)
                 setDokter(response.data.code === "201" ? [] : response.data.list)

@@ -14,7 +14,8 @@ const CetakRegistrasiBody = () => {
     const [sap, setSap] = useState(null)
     const bpjsData = useSelector((state) => state.bpjs.value)
     const penjadwalanData = useSelector((state) => state.jadwal.value)
-    console.log(penjadwalanData)
+    const rujukanData = useSelector((state) => state.rujukan.value)
+    console.log(rujukanData)
     const items = [
         {
             key: '1',
@@ -34,7 +35,6 @@ const CetakRegistrasiBody = () => {
     ];
 
     const getSap = async() =>{
-        console.log(bpjsData)
         let data= {
             "request": {
                 "t_sep": {
@@ -122,9 +122,9 @@ const CetakRegistrasiBody = () => {
 // For QR Code
     canvas = document.createElement('canvas');
     canvas2 = document.createElement('canvas');
-    QRCode.toCanvas(canvas2, "www.google.com");
-    const qr = canvas2.toDataURL('I am a pony!');
-    JsBarcode(canvas, JSON.stringify({"nama":"Ikhsan"}), {displayValue:false});
+    QRCode.toCanvas(canvas2, bpjsData.nama);
+    const qr = canvas2.toDataURL(bpjsData.nama);
+    JsBarcode(canvas, JSON.stringify({"nomorSep":sap ? sap.noSep : ""}), {displayValue:false});
     const barcode = canvas.toDataURL();
     console.log(qr)
     if(sap != null){
@@ -137,8 +137,8 @@ const CetakRegistrasiBody = () => {
                 <Modal width={1100} title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                     <Flex justify={"center"}>
                         <Fragment>
-                            <PDFViewer width="600" height="600" className="app" >
-                                <Invoice invoice={sap} barcode={barcode} penjadwalan={penjadwalanData} qr={qr}/>
+                            <PDFViewer width="601" height="600" className="app" >
+                                <Invoice invoice={sap} barcode={barcode} penjadwalan={penjadwalanData} qr={qr} rujukan={rujukanData} bpjsData={bpjsData}/>
                             </PDFViewer>
                         </Fragment>
                     </Flex>

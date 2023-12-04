@@ -5,26 +5,47 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 10,
+        height: 16,
         fontStyle: 'bold',
     },
     row2:{
         flexDirection: 'row',
-        height: 10,
+        height: 16,
         marginTop:40
+    },
+    row3: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        height: 16,
+        fontStyle: 'bold',
+        width: "50%",
+        flexWrap: 'wrap',
+        flex: 1,
+    },
+    item: {
+        flexDirection:"row",
+        flexWrap: 'wrap',
+        flex: 1,
+        width: '50%' // is 50% of container width
     },
     printTitle: {
         width: '50%',
+        fontSize:11 ,
         textAlign: 'left',
         paddingLeft: 8,
     },
     printData: {
-        width: '70%',
+        width: '90%',
+        flexWrap: 'wrap',
+        maxWidth:'90%',
+        fontSize:11,
         textAlign: 'left',
         paddingRight: 2,
+        textOverflow:"ellipsis"
     },
     qty: {
         width: '5%',
+        fontSize:11,
         textAlign: 'left',
         paddingRight: 1,
     },
@@ -38,15 +59,16 @@ const styles = StyleSheet.create({
     },
     barcode: {
         height: '20px',
-        width: '100%',
+        width: '630px',
         marginBottom: 20
     },
     peserta: {
         textAlign:"center",
-        width:"75%"
+        width:"60%",
+        fontSize: 12
     },
     dividerQr:{
-        width:'77%'
+        width:'83%'
     },
     qr: {
         height: '50px',
@@ -56,10 +78,10 @@ const styles = StyleSheet.create({
 });
 
 
-const InvoiceTableRow = ({items, jadwal, barcode, qr}) => {
+const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData}) => {
     const checkNull = (string) => {
         if(jadwal.dataJson == null){
-            return ""
+            return "-"
         }
         let checkChar = string.trim().split(/\s+/)
         return checkChar != 0 ? string : "Empty"
@@ -69,7 +91,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>No. Sep</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.peserta.noMr}</Text>
+            <Text style={styles.printData}>{items.noSep}</Text>
             <Text style={styles.divider}></Text>
             <Image style={styles.barcode}
                 src={barcode}
@@ -78,7 +100,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Tgl. Sep</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.peserta.nama}</Text>
+            <Text style={styles.printData}>{items.tglSep}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>PRB</Text>
             <Text style={styles.qty}>:</Text>
@@ -87,25 +109,25 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>No. Kartu</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{checkNull(jadwal.dataJson == null ? "" : jadwal.dataJson.poli)}</Text>
+            <Text style={styles.printData}>{items.peserta.noKartu}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Peserta</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>PEKERJA MANDIRI</Text>
+            <Text style={styles.printData}>{bpjsData.jenisPeserta.keterangan}</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Nama Perserta</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{checkNull(jadwal.dataJson == null ? "" : jadwal.dataJson.doctor)}</Text>
+            <Text style={styles.printData}>{items.peserta.nama}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Jns. Rawat</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>Rawat Jalan</Text>
+            <Text style={styles.printData}>{items.jnsPelayanan}</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Tgl. Lahir</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.tglSep}</Text>
+            <Text style={styles.printData}>{items.peserta.tglLahir}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Jns.Kunjunga</Text>
             <Text style={styles.qty}>:</Text>
@@ -114,25 +136,25 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>No. Telepon</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{checkNull(jadwal.dataJson == null ? "" : jadwal.dataJson.jadwal)}</Text>
+            <Text style={styles.printData}>{bpjsData.mr.noTelepon}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Poli Perujuk</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>-</Text>
+            <Text style={styles.printData}>{checkNull(jadwal.dataJson.poli)}</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Sub/Spesialis</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.noSep}</Text>
+            <Text style={styles.printData}>{items.diagnosa}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Kls. Hak</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>Kelas 3</Text>
+            <Text style={styles.printData}>{bpjsData.hakKelas.keterangan}</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Dokter</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.noSep}</Text>
+            <Text style={styles.printData}>{checkNull(jadwal.dataJson.doctor)}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Kls. Rawat</Text>
             <Text style={styles.qty}>:</Text>
@@ -150,7 +172,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Diagnosa Awal</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.noSep}</Text>
+            <Text style={styles.printData}>{items.diagnosa}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}></Text>
             <Text style={styles.qty}></Text>
@@ -159,7 +181,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Catatan</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.noSep}</Text>
+            <Text style={styles.printData}>{items.catatan}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}></Text>
             <Text style={styles.qty}></Text>
@@ -185,9 +207,6 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr}) => {
             <Text style={styles.divider}></Text>
             <Text style={styles.peserta}>{items.peserta.nama}</Text>
         </View>
-
-
-
     </Fragment> )
 };
 
