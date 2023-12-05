@@ -15,7 +15,6 @@ const CetakRegistrasiBody = () => {
     const bpjsData = useSelector((state) => state.bpjs.value)
     const penjadwalanData = useSelector((state) => state.jadwal.value)
     const rujukanData = useSelector((state) => state.rujukan.value)
-    console.log(rujukanData)
     const items = [
         {
             key: '1',

@@ -1,17 +1,28 @@
 import React, {Fragment} from 'react';
 import {Text, View, StyleSheet, Image} from '@react-pdf/renderer';
 
+
 const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent:"center",
         height: 16,
         fontStyle: 'bold',
     },
     row2:{
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent:"center",
         height: 16,
         marginTop:40
+    },
+    rowLong: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent:"center",
+        height: 32,
+        fontStyle: 'bold',
     },
     row3: {
         flexDirection: 'row',
@@ -29,22 +40,38 @@ const styles = StyleSheet.create({
         width: '50%' // is 50% of container width
     },
     printTitle: {
-        width: '50%',
+        width: '58%',
         fontSize:11 ,
         textAlign: 'left',
         paddingLeft: 8,
     },
     printData: {
+        // backgroundColor: '#ffa6c9',
         width: '90%',
         flexWrap: 'wrap',
         maxWidth:'90%',
+        fontSize:11,
+        justifyContent:"center",
+        textAlign: 'left',
+        paddingRight: 2,
+        textOverflow:"ellipsis",
+        display: 'table-cell',
+        verticalAlign: 'middle'
+    },
+    printDataLong: {
+        // backgroundColor: '#ffa6c9',
+        width: '90%',
+        height:25,
+        flexWrap: 'wrap',
+        maxWidth:'90%',
+        justifyContent:"center",
         fontSize:11,
         textAlign: 'left',
         paddingRight: 2,
         textOverflow:"ellipsis"
     },
     qty: {
-        width: '5%',
+        width: '7%',
         fontSize:11,
         textAlign: 'left',
         paddingRight: 1,
@@ -78,7 +105,8 @@ const styles = StyleSheet.create({
 });
 
 
-const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData}) => {
+const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData, rujukan}) => {
+    console.log(rujukan)
     const checkNull = (string) => {
         if(jadwal.dataJson == null){
             return "-"
@@ -115,23 +143,23 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData}) => {
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{bpjsData.jenisPeserta.keterangan}</Text>
         </View>
-        <View style={styles.row} key={items.noSep.toString()}>
+        <View style={styles.rowLong} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Nama Perserta</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.peserta.nama}</Text>
+            <Text style={styles.printDataLong}>{items.peserta.nama}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Jns. Rawat</Text>
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{items.jnsPelayanan}</Text>
         </View>
-        <View style={styles.row} key={items.noSep.toString()}>
+        <View style={styles.rowLong} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Tgl. Lahir</Text>
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{items.peserta.tglLahir}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Jns.Kunjunga</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>- Kunjungan Kontrol(ulangan)</Text>
+            <Text style={styles.printDataLong}>- Kunjungan Kontrol(ulangan)</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>No. Telepon</Text>
@@ -142,10 +170,10 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData}) => {
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{checkNull(jadwal.dataJson.poli)}</Text>
         </View>
-        <View style={styles.row} key={items.noSep.toString()}>
+        <View style={styles.rowLong} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Sub/Spesialis</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.diagnosa}</Text>
+            <Text style={styles.printDataLong}>{items.diagnosa}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Kls. Hak</Text>
             <Text style={styles.qty}>:</Text>
@@ -163,7 +191,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Faskes</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.noSep}</Text>
+            <Text style={styles.printData}>{rujukan.asalFaskes}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Penjamin</Text>
             <Text style={styles.qty}>:</Text>
@@ -172,7 +200,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData}) => {
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Diagnosa Awal</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{items.diagnosa}</Text>
+            <Text style={styles.printData}>{rujukan.asalFaskes}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}></Text>
             <Text style={styles.qty}></Text>
@@ -195,7 +223,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData}) => {
             <Text style={styles.peserta}>Pasien/Keluarga Pasien</Text>
         </View>
         <View style={styles.row} key={items.noSep.toString()}>
-            <Text style={styles.dividerQr}></Text>
+            <Text style={styles.dividerQr}>*Saya Menyetujui BPJS Kesehatan menggunakan informasi Medis Pasien jika diperlukan. {'\n'} Cetakan ke 1 20/11/2023 11:54:59 AM</Text>
             <Image style={styles.qr}
                    src={qr}
             />

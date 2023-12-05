@@ -54,4 +54,7 @@ export default class Api {
     getSap = (params) => {
         return this.init().post('/api/vclaim/SEPv2/insert', params)
     }
+    findSep = (params) => {
+        return this.init().get('/api/vclaim/SEPv2/get', {params:params})
+    }
 }
