@@ -136,7 +136,7 @@ const CetakRegistrasiBody = () => {
                 <Modal width={1100} title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                     <Flex justify={"center"}>
                         <Fragment>
-                            <PDFViewer width="601" height="600" className="app" >
+                            <PDFViewer width="600" height="600" className="app" >
                                 <Invoice invoice={sap} barcode={barcode} penjadwalan={penjadwalanData} qr={qr} rujukan={rujukanData} bpjsData={bpjsData}/>
                             </PDFViewer>
                         </Fragment>

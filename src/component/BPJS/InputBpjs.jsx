@@ -1,4 +1,4 @@
-import { Col, Input, Row} from "antd";
+import {Col, Input, message, Row} from "antd";
 import { useDispatch } from 'react-redux'
 import FingerInput from "../FingerInput/FingerInput.jsx";
 import {useState} from "react";
@@ -13,7 +13,20 @@ const helper = new Helper()
 const InputBpjs = ({next,complete}) => {
     const [numberBpjs, setNumberBpjs] = useState(bpjs)
     const dispatch = useDispatch()
+    const [messageApi, contextHolder] = message.useMessage();
 
+    const success = () => {
+        messageApi.open({
+            type: 'success',
+            content: 'Verifikasi Fingerprint Berhasil',
+        });
+    };
+    const error = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'Bpjs Tidak ditemukan',
+        });
+    };
     const changeNumber = (numbers) =>{
         setNumberBpjs(bpjs => [...bpjs, numbers])
     }
@@ -35,8 +48,13 @@ const InputBpjs = ({next,complete}) => {
             .getBpjs(data)
             .then((response) => {
                 console.log(response)
-                dispatch(add(response.data.peserta))
-                getRujukan(numberBpjs.join("").toString())
+                if(response.data.code == "201"){
+                    error()
+                }else{
+                    success()
+                    dispatch(add(response.data.peserta))
+                    getRujukan(numberBpjs.join("").toString())
+                }
                 // {next()}
                 // {complete(1)}
             })
@@ -57,6 +75,7 @@ const InputBpjs = ({next,complete}) => {
 
     return(
         <Row gutter={24} align={"middle"} justify="center">
+            {contextHolder}
             <Col span={12}>
                 <FingerInput setNumber={changeNumber} numbers={numberBpjs} clearForm={clearForm} backspace={backspace} submit={getBpjsData}></FingerInput>
             </Col>

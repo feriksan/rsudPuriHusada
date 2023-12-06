@@ -3,11 +3,12 @@ import {Button, message, Steps, theme} from 'antd';
 import InputBpjs from "../component/BPJS/InputBpjs.jsx";
 import Penjadwalan from "../component/Penjadwalan.jsx";
 import CetakRegistrasiBody from "../component/CetakRegistrasi.jsx";
+import Fingerprint from "../component/Fingerprint/Fingerprint.jsx";
 
 const Pendaftaran = () => {
     const { token } = theme.useToken();
     const [current, setCurrent] = useState(0);
-    const [disabled, setDisabled] = useState(false)
+    const [disabled, setDisabled] = useState(true)
     const next = () => {
         setCurrent(current + 1);
     };
@@ -22,6 +23,10 @@ const Pendaftaran = () => {
         {
             title: 'Pemilihan Poli',
             content: <Penjadwalan disabled={setDisabled}/>,
+        },
+        {
+            title: 'Fingerprint',
+            content: <Fingerprint disabled={setDisabled}/>,
         },
         {
             title: 'Cetak Nomor Antrian',

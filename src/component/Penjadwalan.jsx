@@ -16,8 +16,6 @@ const Penjadwalan = ({disabled}) => {
     const dispatch = useDispatch()
     const rujukanData = useSelector((state) => state.rujukan.value)
     let dataJson = {}
-    {disabled(false)}
-
     const onChangePoli = (value, element) => {
         setSelectedPoli(element)
         console.log(`selected ${element}`);
@@ -32,7 +30,7 @@ const Penjadwalan = ({disabled}) => {
             "doctor":selectedDoctor ?? "",
             "jadwal":value ?? ""
         }
-        // {disabled(false)}
+        {disabled(false)}
         dispatch(add({dataJson}))
         console.log(`selected ${value}`);
     };

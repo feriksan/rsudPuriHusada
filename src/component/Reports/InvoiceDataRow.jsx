@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:"center",
+        display:"flex",
         height: 32,
         fontStyle: 'bold',
     },
@@ -65,6 +66,8 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         maxWidth:'90%',
         justifyContent:"center",
+        alignItems:"center",
+        verticalAlign:"middle",
         fontSize:11,
         textAlign: 'left',
         paddingRight: 2,
@@ -161,14 +164,14 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData, rujukan}) => {
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printDataLong}>- Kunjungan Kontrol(ulangan)</Text>
         </View>
-        <View style={styles.row} key={items.noSep.toString()}>
+        <View style={styles.rowLong} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>No. Telepon</Text>
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{bpjsData.mr.noTelepon}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Poli Perujuk</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{checkNull(jadwal.dataJson.poli)}</Text>
+            <Text style={styles.printDataLong}>{checkNull(jadwal.dataJson.poli)}</Text>
         </View>
         <View style={styles.rowLong} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Sub/Spesialis</Text>
