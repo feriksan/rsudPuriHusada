@@ -76,11 +76,11 @@ const InputBpjs = ({next,complete}) => {
     return(
         <Row gutter={24} align={"middle"} justify="center">
             {contextHolder}
-            <Col span={12}>
-                <FingerInput setNumber={changeNumber} numbers={numberBpjs} clearForm={clearForm} backspace={backspace} submit={getBpjsData}></FingerInput>
-            </Col>
-            <Col span={5}>
+            <Col span={20}>
                 <Input placeholder="Basic usage" value={numberBpjs.join("").toString()}/>
+            </Col>
+            <Col span={14}>
+                <FingerInput setNumber={changeNumber} numbers={numberBpjs} clearForm={clearForm} backspace={backspace} submit={getBpjsData}></FingerInput>
             </Col>
         </Row>
     )

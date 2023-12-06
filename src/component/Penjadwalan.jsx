@@ -7,6 +7,341 @@ import {add} from "../features/penjadwalan/saveJadwal.js";
 
 const api = new Api()
 const helper = new Helper()
+
+const dataPoli = {
+    "data": [
+        {
+            "kode": "AKP",
+            "value": "Akupuntur"
+        },
+        {
+            "kode": "ALG",
+            "value": "Alergi"
+        },
+        {
+            "kode": "ANA",
+            "value": "Poli Anak"
+        },
+        {
+            "kode": "ANU",
+            "value": "Anuscopy"
+        },
+        {
+            "kode": "APT",
+            "value": "APOTIK"
+        },
+        {
+            "kode": "ASM",
+            "value": "ASM"
+        },
+        {
+            "kode": "BDS",
+            "value": "BDS"
+        },
+        {
+            "kode": "BED",
+            "value": "Poli Bedah"
+        },
+        {
+            "kode": "BSY",
+            "value": "Bedah Syaraf"
+        },
+        {
+            "kode": "CAN",
+            "value": "CAN"
+        },
+        {
+            "kode": "CAP",
+            "value": "Unit Pelayanan CAPD"
+        },
+        {
+            "kode": "CTS",
+            "value": "CT Scan"
+        },
+        {
+            "kode": "DBM",
+            "value": "Diabetes Melitus"
+        },
+        {
+            "kode": "DRH",
+            "value": "Darah"
+        },
+        {
+            "kode": "ECO",
+            "value": "Echo"
+        },
+        {
+            "kode": "EKG",
+            "value": "Rekam Jantung"
+        },
+        {
+            "kode": "ELK",
+            "value": "ELK"
+        },
+        {
+            "kode": "END",
+            "value": "Endokrin"
+        },
+        {
+            "kode": "ESW",
+            "value": "ESWL"
+        },
+        {
+            "kode": "FIS",
+            "value": "Fisioterapi"
+        },
+        {
+            "kode": "GAS",
+            "value": "Gastro"
+        },
+        {
+            "kode": "GER",
+            "value": "Geriatri"
+        },
+        {
+            "kode": "GIG",
+            "value": "Poli Gigi"
+        },
+        {
+            "kode": "GIN",
+            "value": "Ginjal"
+        },
+        {
+            "kode": "GIZ",
+            "value": "Gizi"
+        },
+        {
+            "kode": "GP1",
+            "value": "Gigi"
+        },
+        {
+            "kode": "GTS",
+            "value": "GILA"
+        },
+        {
+            "kode": "HAM",
+            "value": "HAM"
+        },
+        {
+            "kode": "HCU",
+            "value": "High Care Unit"
+        },
+        {
+            "kode": "HDL",
+            "value": "Hemodialisa"
+        },
+        {
+            "kode": "HEM",
+            "value": "Hematologi"
+        },
+        {
+            "kode": "HEP",
+            "value": "Hepatologi"
+        },
+        {
+            "kode": "ICU",
+            "value": "Intensive Care Unit"
+        },
+        {
+            "kode": "IGD",
+            "value": "Instalasi Gawat Darurat"
+        },
+        {
+            "kode": "IKA",
+            "value": "Ilmu Kesehatan Anak"
+        },
+        {
+            "kode": "INF",
+            "value": "INSTALASI FARMASI"
+        },
+        {
+            "kode": "INT",
+            "value": "Poli Penyakit Dalam"
+        },
+        {
+            "kode": "IPD",
+            "value": "Ilmu Penyakit Dalam"
+        },
+        {
+            "kode": "IRM",
+            "value": "Installasi Rehabilitasi Medik"
+        },
+        {
+            "kode": "IVP",
+            "value": "Intravena Pydografi"
+        },
+        {
+            "kode": "JAN",
+            "value": "Poli Jantung"
+        },
+        {
+            "kode": "JIW",
+            "value": "Poli Penyakit Jiwa"
+        },
+        {
+            "kode": "JWA",
+            "value": "Jiwa Anak"
+        },
+        {
+            "kode": "JWD",
+            "value": "Jiwa Dewasa"
+        },
+        {
+            "kode": "KLT",
+            "value": "Poli Kulit"
+        },
+        {
+            "kode": "KOL",
+            "value": "KOL"
+        },
+        {
+            "kode": "LAB",
+            "value": "Laboratorium"
+        },
+        {
+            "kode": "LAI",
+            "value": "Lain-Lain"
+        },
+        {
+            "kode": "MAT",
+            "value": "Poli Penyakit Mata"
+        },
+        {
+            "kode": "MRI",
+            "value": "MRI"
+        },
+        {
+            "kode": "NUK",
+            "value": "Radioterapi/Nuklir"
+        },
+        {
+            "kode": "OBG",
+            "value": "Poli Obstetri/Gyn."
+        },
+        {
+            "kode": "OKM",
+            "value": "OKM"
+        },
+        {
+            "kode": "OPT",
+            "value": "OPTIK"
+        },
+        {
+            "kode": "ORT",
+            "value": "ORT"
+        },
+        {
+            "kode": "OTL",
+            "value": "OTL"
+        },
+        {
+            "kode": "PAR",
+            "value": "Poli Paru-paru"
+        },
+        {
+            "kode": "PAT",
+            "value": "PAT"
+        },
+        {
+            "kode": "PKM",
+            "value": "PUSKESMAS"
+        },
+        {
+            "kode": "PMI",
+            "value": "PMI"
+        },
+        {
+            "kode": "PPK",
+            "value": "PPK"
+        },
+        {
+            "kode": "PSI",
+            "value": "PSI"
+        },
+        {
+            "kode": "PSK",
+            "value": "PSK"
+        },
+        {
+            "kode": "PUL",
+            "value": "Pulmonologi"
+        },
+        {
+            "kode": "R12",
+            "value": "Boneseah"
+        },
+        {
+            "kode": "RAA",
+            "value": "Radiologi Anak"
+        },
+        {
+            "kode": "RAD",
+            "value": "Radiologi"
+        },
+        {
+            "kode": "RAT",
+            "value": "Radioterapi"
+        },
+        {
+            "kode": "REM",
+            "value": "REM"
+        },
+        {
+            "kode": "RHM",
+            "value": "Rheumatologi"
+        },
+        {
+            "kode": "RO2",
+            "value": "RO2"
+        },
+        {
+            "kode": "SAR",
+            "value": "Poli Penyakit Saraf"
+        },
+        {
+            "kode": "SPC",
+            "value": "SPC"
+        },
+        {
+            "kode": "TAK",
+            "value": "TAK"
+        },
+        {
+            "kode": "THT",
+            "value": "Poli Telinga/Hidung/Tenggorok"
+        },
+        {
+            "kode": "TON",
+            "value": "Treadmil Test"
+        },
+        {
+            "kode": "TRD",
+            "value": "TUM"
+        },
+        {
+            "kode": "TUM",
+            "value": "Unit Gawat Darurat"
+        },
+        {
+            "kode": "UGD",
+            "value": "URE"
+        },
+        {
+            "kode": "URE",
+            "value": "URF"
+        },
+        {
+            "kode": "URF",
+            "value": "URO"
+        },
+        {
+            "kode": "URO",
+            "value": "USG"
+        }
+    ]
+}
+
+
 const Penjadwalan = ({disabled}) => {
     const [poli, setPoli] = useState([])
     const [dokter, setDokter] = useState([])
@@ -39,7 +374,7 @@ const Penjadwalan = ({disabled}) => {
     };
     const getPoli = async() =>{
         await api
-            .getPoli({"poli":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan : "INT"})
+            .getPoli({"poli":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan : dataPoli})
             .then((response) => {
                 console.log(response.data)
                 setPoli(response.data.code === "201" ? [] : response.data.poli)
@@ -48,7 +383,7 @@ const Penjadwalan = ({disabled}) => {
 
     const getDokter = async() =>{
         await api
-            .getDoctor({"kode":"INT", "jenpel":"2", "tgl":helper.formatDate()})
+            .getDoctor({"kode":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "jenpel":"2", "tgl":helper.formatDate()})
             .then((response) => {
                 console.log(response.data)
                 setDokter(response.data.code === "201" ? [] : response.data.list)
@@ -57,7 +392,7 @@ const Penjadwalan = ({disabled}) => {
 
     const getJadwal = async() =>{
         await api
-            .getJadwal({"kdpoli":"INT", "tgl":helper.formatDate()})
+            .getJadwal({"kdpoli":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "tgl":helper.formatDate()})
             .then((response) => {
                 console.log(response.data)
                 setJadwal(response.data.code === 201 ? [] : response.data)
@@ -82,10 +417,11 @@ const Penjadwalan = ({disabled}) => {
             placeholder="Select poli"
             optionFilterProp="children"
             style={{ width: '100%' }}
+            defaultValue={rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT"}
             onChange={onChangePoli}
             onSearch={onSearch}
             filterOption={filterOption}
-            options={poli.map((data) => ({ label: data.nama, value: data.kode }))}
+            options={dataPoli.data.map((element) => ({ label: element.value, value: element.kode }))}
         />
             <Divider/>
             <h2>Pilih Dokter</h2>

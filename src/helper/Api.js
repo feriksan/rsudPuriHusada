@@ -57,4 +57,7 @@ export default class Api {
     findSep = (params) => {
         return this.init().get('/api/vclaim/SEPv2/get', {params:params})
     }
+    fingerprint = (params) => {
+        return this.init().get('/api/vclaim/getFingerprintSingle', {params:params})
+    }
 }
