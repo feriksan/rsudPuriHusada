@@ -7,7 +7,7 @@ import Helper from "../../helper/helper.js";
 import {add} from '../../features/bpjs/saveBpjsData'
 import {addRujukan} from '../../features/rujukan/saveRujukanData.js'
 
-const bpjs = [0,0,0,2,0,5,0,4,3,8,7,9,2]
+const bpjs = []
 const api = new Api()
 const helper = new Helper()
 const InputBpjs = ({next,complete}) => {
@@ -55,8 +55,6 @@ const InputBpjs = ({next,complete}) => {
                     dispatch(add(response.data.peserta))
                     getRujukan(numberBpjs.join("").toString())
                 }
-                // {next()}
-                // {complete(1)}
             })
     }
 

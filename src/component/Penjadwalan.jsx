@@ -1,4 +1,4 @@
-import {Divider, Select} from "antd";
+import {Divider, message, Select} from "antd";
 import Api from "../helper/Api.js";
 import {useEffect, useState} from "react";
 import Helper from "../helper/helper.js";
@@ -340,8 +340,6 @@ const dataPoli = {
         }
     ]
 }
-
-
 const Penjadwalan = ({disabled}) => {
     const [poli, setPoli] = useState([])
     const [dokter, setDokter] = useState([])
@@ -350,7 +348,22 @@ const Penjadwalan = ({disabled}) => {
     const [selectedDoctor, setSelectedDoctor] = useState()
     const dispatch = useDispatch()
     const rujukanData = useSelector((state) => state.rujukan.value)
+    const [messageApi, contextHolder] = message.useMessage();
     let dataJson = {}
+
+    const success = () => {
+        messageApi.open({
+            type: 'success',
+            content: 'Dokter dan Jadwal tersedia',
+        });
+    };
+    const error = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'Dokter dan Jadwal tidak tersedia untuk poli ini',
+        });
+    };
+
     const onChangePoli = (value, element) => {
         setSelectedPoli(element)
         console.log(`selected ${element}`);
@@ -387,14 +400,26 @@ const Penjadwalan = ({disabled}) => {
                 .getDoctor({"kode":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "jenpel":"2", "tgl":helper.formatDate()})
                 .then((response) => {
                     console.log(response.data)
-                    setDokter(response.data.code === "201" ? [] : response.data.list)
+                    if(response.data.code == "201"){
+                        error()
+                        setDokter([])
+                    }else{
+                        success()
+                        setDokter(response.data.list)
+                    }
                 })
         }else{
-            console.log(selectedPoli)
             await api
                 .getDoctor({"kode":selectedPoli.value, "jenpel":"2", "tgl":helper.formatDate()})
                 .then((response) => {
                     console.log(response.data)
+                    if(response.data.code == "201"){
+                        error()
+                        setDokter([])
+                    }else{
+                        success()
+                        setDokter(response.data.list)
+                    }
                     setDokter(response.data.code === "201" ? [] : response.data.list)
                 })
         }
@@ -407,15 +432,22 @@ const Penjadwalan = ({disabled}) => {
                 .getJadwal({"kdpoli":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "tgl":helper.formatDate()})
                 .then((response) => {
                     console.log(response.data)
-                    setJadwal(response.data.code === 201 ? [] : response.data)
+                    if(response.data.code == "201"){
+                        setJadwal([])
+                    }else{
+                        setJadwal(response.data)
+                    }
                 })
         }else{
-            console.log(selectedPoli)
             await api
                 .getJadwal({"kdpoli":selectedPoli.value, "tgl":helper.formatDate()})
                 .then((response) => {
                     console.log(response.data)
-                    setJadwal(response.data.code === 201 ? [] : response.data)
+                    if(response.data.code == "201"){
+                        setJadwal([])
+                    }else{
+                        setJadwal(response.data)
+                    }
                 })
         }
 
@@ -433,6 +465,7 @@ const Penjadwalan = ({disabled}) => {
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
     return(
         <>
+        {contextHolder}
         <h2>Pilih Poli</h2>
         <Select
             showSearch

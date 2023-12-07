@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     },
     barcode: {
         height: '20px',
-        width: '630px',
+        width: '770px',
         marginBottom: 20
     },
     peserta: {
@@ -149,7 +149,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData, rujukan}) => {
         <View style={styles.rowLong} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Nama Perserta</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printDataLong}>{items.peserta.nama}</Text>
+            <Text style={items.peserta.nama.split("").length > 23 ? styles.printDataLong : styles.printData}>{items.peserta.nama}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Jns. Rawat</Text>
             <Text style={styles.qty}>:</Text>
@@ -171,7 +171,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData, rujukan}) => {
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Poli Perujuk</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printDataLong}>{checkNull(jadwal.dataJson.poli)}</Text>
+            <Text style={checkNull(jadwal.dataJson.poli).split("").length > 23 ? styles.printDataLong : styles.printData}>{checkNull(jadwal.dataJson.poli)}</Text>
         </View>
         <View style={styles.rowLong} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Sub/Spesialis</Text>

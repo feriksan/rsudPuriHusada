@@ -13,6 +13,7 @@ const Fingerprint = ({disabled}) => {
     useEffect(() => {
         window.open("fingerprintbpjs:launch");
         {disabled(true)}
+        handleFingerprint()
         const checkFingerprint = Cron('*/5 * * * * *', async() => {
             console.log(helper.formatDate())
             let data = {
@@ -22,12 +23,14 @@ const Fingerprint = ({disabled}) => {
             await api
                 .fingerprint(data)
                 .then((response) => {
-                    if(response.data.kode == "0"){
+                    console.log(response)
+                    if(response.data.kode == "1"){
                         success()
                         {disabled(false)}
                         setFingerprint(true);
                         checkFingerprint.stop();
                     }
+                    checkFingerprint.stop();
                 })
         });
     }, []);

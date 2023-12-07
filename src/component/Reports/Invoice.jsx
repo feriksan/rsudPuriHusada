@@ -1,11 +1,7 @@
 import React from 'react';
-import { Page, Document, Image, StyleSheet } from '@react-pdf/renderer';
+import { Page, Document, StyleSheet } from '@react-pdf/renderer';
 import InvoiceTitle from './InvoiceTittle.jsx'
-import BillTo from './BillTo'
-import InvoiceNo from './InvoiceNo'
 import InvoiceItemsTable from './InvoiceItemTable.jsx'
-import InvoiceThankYouMsg from './InvoiceThankyou.jsx'
-import logo from '../../assets/react.svg'
 
 
 const styles = StyleSheet.create({
@@ -30,10 +26,7 @@ const Invoice = ({invoice, barcode, penjadwalan, qr, rujukan, bpjsData}) => (
     <Document>
         <Page orientation={"landscape"} size="A5" style={styles.page}>
             <InvoiceTitle title='SURAT ELEGIBILITAS PESERTA'/>
-            {/*<InvoiceNo invoice={invoice}/>*/}
-            {/*<BillTo invoice={invoice}/>*/}
             <InvoiceItemsTable invoice={invoice} jadwal={penjadwalan} barcode={barcode} qr={qr} rujukan={rujukan} bpjsData={bpjsData}/>
-            {/*<InvoiceThankYouMsg />*/}
         </Page>
     </Document>
 );
