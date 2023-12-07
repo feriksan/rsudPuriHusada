@@ -346,7 +346,7 @@ const Penjadwalan = ({disabled}) => {
     const [poli, setPoli] = useState([])
     const [dokter, setDokter] = useState([])
     const [jadwal, setJadwal] = useState([])
-    const [selectedPoli, setSelectedPoli] = useState("INT")
+    const [selectedPoli, setSelectedPoli] = useState(null)
     const [selectedDoctor, setSelectedDoctor] = useState()
     const dispatch = useDispatch()
     const rujukanData = useSelector((state) => state.rujukan.value)
@@ -382,21 +382,43 @@ const Penjadwalan = ({disabled}) => {
     }
 
     const getDokter = async() =>{
-        await api
-            .getDoctor({"kode":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "jenpel":"2", "tgl":helper.formatDate()})
-            .then((response) => {
-                console.log(response.data)
-                setDokter(response.data.code === "201" ? [] : response.data.list)
-            })
+        if(selectedPoli == null){
+            await api
+                .getDoctor({"kode":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "jenpel":"2", "tgl":helper.formatDate()})
+                .then((response) => {
+                    console.log(response.data)
+                    setDokter(response.data.code === "201" ? [] : response.data.list)
+                })
+        }else{
+            console.log(selectedPoli)
+            await api
+                .getDoctor({"kode":selectedPoli.value, "jenpel":"2", "tgl":helper.formatDate()})
+                .then((response) => {
+                    console.log(response.data)
+                    setDokter(response.data.code === "201" ? [] : response.data.list)
+                })
+        }
+
     }
 
     const getJadwal = async() =>{
-        await api
-            .getJadwal({"kdpoli":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "tgl":helper.formatDate()})
-            .then((response) => {
-                console.log(response.data)
-                setJadwal(response.data.code === 201 ? [] : response.data)
-            })
+        if(selectedPoli == null){
+            await api
+                .getJadwal({"kdpoli":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "tgl":helper.formatDate()})
+                .then((response) => {
+                    console.log(response.data)
+                    setJadwal(response.data.code === 201 ? [] : response.data)
+                })
+        }else{
+            console.log(selectedPoli)
+            await api
+                .getJadwal({"kdpoli":selectedPoli.value, "tgl":helper.formatDate()})
+                .then((response) => {
+                    console.log(response.data)
+                    setJadwal(response.data.code === 201 ? [] : response.data)
+                })
+        }
+
     }
 
     useEffect(() => {
