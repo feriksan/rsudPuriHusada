@@ -346,6 +346,9 @@ const Penjadwalan = ({disabled}) => {
     const [jadwal, setJadwal] = useState([])
     const [selectedPoli, setSelectedPoli] = useState(null)
     const [selectedDoctor, setSelectedDoctor] = useState()
+    const [selectedJadwal, setSelectedJadwal] = useState()
+    const [disableSelect, setDisableSelect] = useState(true)
+    const [selectedDoctorCode, setSelectedDoctorCode] = useState(0)
     const dispatch = useDispatch()
     const rujukanData = useSelector((state) => state.rujukan.value)
     const [messageApi, contextHolder] = message.useMessage();
@@ -366,13 +369,23 @@ const Penjadwalan = ({disabled}) => {
 
     const onChangePoli = (value, element) => {
         setSelectedPoli(element)
+        setDisableSelect(true)
+        setSelectedDoctor(null)
+        setSelectedJadwal(null)
         console.log(`selected ${element}`);
+        getDokter(value);
     };
-    const onChangeDoctor = (value) => {
-        setSelectedDoctor(value)
+    const onChangeDoctor = (value,element) => {
+        setSelectedDoctor(element.label);
+        // setSelectedDoctor(value);
+        setDisableSelect(false)
+        setSelectedDoctorCode(value);
+        getJadwal(value);
         console.log(`selected ${value}`);
     };
     const onChangeJadwal = (value) => {
+        console.log(selectedPoli);
+        setSelectedJadwal(value)
         dataJson = {
             "poli":selectedPoli.label ?? "",
             "doctor":selectedDoctor ?? "",
@@ -394,10 +407,10 @@ const Penjadwalan = ({disabled}) => {
             })
     }
 
-    const getDokter = async() =>{
+    const getDokter = async(kodePoli) =>{
         if(selectedPoli == null){
             await api
-                .getDoctor({"kode":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "jenpel":"2", "tgl":helper.formatDate()})
+                .getDoctor({"kode":kodePoli, "jenpel":"2", "tgl":helper.formatDate()})
                 .then((response) => {
                     console.log(response.data)
                     if(response.data.code == "201"){
@@ -410,7 +423,7 @@ const Penjadwalan = ({disabled}) => {
                 })
         }else{
             await api
-                .getDoctor({"kode":selectedPoli.value, "jenpel":"2", "tgl":helper.formatDate()})
+                .getDoctor({"kode":kodePoli, "jenpel":"2", "tgl":helper.formatDate()})
                 .then((response) => {
                     console.log(response.data)
                     if(response.data.code == "201"){
@@ -426,7 +439,7 @@ const Penjadwalan = ({disabled}) => {
 
     }
 
-    const getJadwal = async() =>{
+    const getJadwal = async(kodedokter) =>{
         if(selectedPoli == null){
             await api
                 .getJadwal({"kdpoli":rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT", "tgl":helper.formatDate()})
@@ -435,7 +448,16 @@ const Penjadwalan = ({disabled}) => {
                     if(response.data.code == "201"){
                         setJadwal([])
                     }else{
-                        setJadwal(response.data)
+                        let jadwalFiltered = [];
+                        console.log("kode dokter",kodedokter);
+                        for(let i in response.data){
+                            if(response.data[i].kodedokter==kodedokter){
+                                console.log("dapat");
+                                jadwalFiltered.push(response.data[i]);
+                            }
+                        }
+                        console.log(jadwalFiltered);
+                        setJadwal(jadwalFiltered);
                     }
                 })
         }else{
@@ -446,38 +468,63 @@ const Penjadwalan = ({disabled}) => {
                     if(response.data.code == "201"){
                         setJadwal([])
                     }else{
-                        setJadwal(response.data)
+                        let jadwalFiltered = [];
+                        console.log("kode dokter",kodedokter);
+                        for(let i in response.data){
+                            if(response.data[i].kodedokter==kodedokter){
+                                console.log("dapat");
+                                jadwalFiltered.push(response.data[i]);
+                            }
+                        }
+                        console.log(jadwalFiltered);
+                        setJadwal(jadwalFiltered);
                     }
                 })
         }
 
     }
 
+    const defaultValuePoli = () =>{
+        let kodePoli = rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT"
+        for(let pol of dataPoli.data){
+            console.log(pol.kode,kodePoli);
+            if(pol.kode == kodePoli){
+                setSelectedPoli({
+                    label:pol.value,
+                    value:pol.kode
+                });
+            }
+        }
+        getDokter(kodePoli);
+    }
+
     useEffect(() => {
         {disabled(true)}
         getPoli()
-        getDokter()
-        getJadwal()
-    }, [selectedPoli]);
+        // getDokter()
+        // getJadwal()
+        defaultValuePoli()
+    }, []);
 
 // Filter `option.label` match the user type `input`
     const filterOption = (input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
     return(
         <>
-        {contextHolder}
-        <h2>Pilih Poli</h2>
-        <Select
-            showSearch
-            placeholder="Select poli"
-            optionFilterProp="children"
-            style={{ width: '100%' }}
-            defaultValue={rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT"}
-            onChange={onChangePoli}
-            onSearch={onSearch}
-            filterOption={filterOption}
-            options={dataPoli.data.map((element) => ({ label: element.value, value: element.kode }))}
-        />
+            {contextHolder}
+            <h2>Pilih Poli</h2>
+            <Select
+                showSearch
+                placeholder="Select poli"
+                optionFilterProp="children"
+                style={{ width: '100%' }}
+                defaultValue={rujukanData.rujukan ? rujukanData.rujukan.poliRujukan.kode : "INT"}
+                onChange={onChangePoli}
+                onSearch={onSearch}
+                filterOption={filterOption}
+                allowClear={true}
+                options={dataPoli.data.map((element) => ({ label: element.value, value: element.kode }))}
+            />
             <Divider/>
             <h2>Pilih Dokter</h2>
             <Select
@@ -488,7 +535,9 @@ const Penjadwalan = ({disabled}) => {
                 onChange={onChangeDoctor}
                 onSearch={onSearch}
                 filterOption={filterOption}
-                options={dokter.map((data) => ({ label: data.nama, value: data.nama }))}
+                allowClear={true}
+                value={selectedDoctor}
+                options={dokter.map((data) => ({ label: data.nama, value: data.kode }))}
             />
             <Divider/>
             <h2>Pilih Jadwal</h2>
@@ -500,6 +549,9 @@ const Penjadwalan = ({disabled}) => {
                 onChange={onChangeJadwal}
                 onSearch={onSearch}
                 filterOption={filterOption}
+                allowClear={true}
+                value={selectedJadwal}
+                disabled={disableSelect}
                 options={jadwal.map((data) => ({ label: data.jadwal, value: data.jadwal }))}
             />
         </>

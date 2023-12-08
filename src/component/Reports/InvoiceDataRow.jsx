@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import {Text, View, StyleSheet, Image} from '@react-pdf/renderer';
-
+import DynamicTextView from "./DynamicTextView.jsx";
 
 const styles = StyleSheet.create({
     row: {
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
         width: '50%' // is 50% of container width
     },
     printTitle: {
+        // backgroundColor: '#ffa6c9',
         width: '58%',
         fontSize:11 ,
         textAlign: 'left',
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
         paddingRight: 8,
     },
     divider: {
-        width: '20%'
+        width: '5%'
     },
     barcode: {
         height: '20px',
@@ -119,6 +120,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData, rujukan}) => {
     }
     return (
     <Fragment>
+        {/*<DynamicTextView leftData={items.noSep} rightData={barcode} leftTittle={"No. Sep"} rightTittle={""} type1={"text"} type2={"barcode"}></DynamicTextView>*/}
         <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>No. Sep</Text>
             <Text style={styles.qty}>:</Text>
@@ -146,7 +148,7 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData, rujukan}) => {
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{bpjsData.jenisPeserta.keterangan}</Text>
         </View>
-        <View style={styles.rowLong} key={items.noSep.toString()}>
+        <View style={items.peserta.nama.split("").length > 23 ? styles.rowLong : styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Nama Perserta</Text>
             <Text style={styles.qty}>:</Text>
             <Text style={items.peserta.nama.split("").length > 23 ? styles.printDataLong : styles.printData}>{items.peserta.nama}</Text>
@@ -155,16 +157,16 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData, rujukan}) => {
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{items.jnsPelayanan}</Text>
         </View>
-        <View style={styles.rowLong} key={items.noSep.toString()}>
+        <View style={styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Tgl. Lahir</Text>
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{items.peserta.tglLahir}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Jns.Kunjunga</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printDataLong}>- Kunjungan Kontrol(ulangan)</Text>
+            <Text style={styles.printData}>- Kunjungan Kontrol(ulangan)</Text>
         </View>
-        <View style={styles.rowLong} key={items.noSep.toString()}>
+        <View style={checkNull(jadwal.dataJson.poli).split("").length > 23 ? styles.rowLong : styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>No. Telepon</Text>
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{bpjsData.mr.noTelepon}</Text>
@@ -182,10 +184,10 @@ const InvoiceTableRow = ({items, jadwal, barcode, qr, bpjsData, rujukan}) => {
             <Text style={styles.qty}>:</Text>
             <Text style={styles.printData}>{bpjsData.hakKelas.keterangan}</Text>
         </View>
-        <View style={styles.row} key={items.noSep.toString()}>
+        <View style={checkNull(jadwal.dataJson.doctor).split("").length > 23 ? styles.rowLong : styles.row} key={items.noSep.toString()}>
             <Text style={styles.printTitle}>Dokter</Text>
             <Text style={styles.qty}>:</Text>
-            <Text style={styles.printData}>{checkNull(jadwal.dataJson.doctor)}</Text>
+            <Text style={checkNull(jadwal.dataJson.doctor).split("").length > 23 ? styles.printDataLong : styles.printData}>{checkNull(jadwal.dataJson.doctor)}</Text>
             <Text style={styles.divider}></Text>
             <Text style={styles.printTitle}>Kls. Rawat</Text>
             <Text style={styles.qty}>:</Text>
